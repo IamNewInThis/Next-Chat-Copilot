@@ -1,42 +1,53 @@
 // pages/register.tsx
 'use client';
 
-import React from 'react';
+import React,{useState} from 'react';
 import { useRouter } from 'next/navigation';
+import { registerWithEmail } from '@/services/auth'
 import AuthTemplate from '@/components/login/templates/AuthTemplate';
 import RegisterForm from '@/components/login/organism/RegisterForm';
 
+
 export default function RegisterPage() {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
     const handleRegisterSubmit = async (data: { name: string; email: string; password: string }) => {
         try {
-        console.log('Register attempt with:', data);
-        // Here you would typically make an API call to your registration endpoint
-        // const response = await fetch('/api/auth/register', {
-        //   method: 'POST',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body: JSON.stringify(data)
-        // });
+        setIsLoading(true);
+        setErrorMessage('');
         
-        // if (response.ok) {
-        //   router.push('/login?registered=true');
-        // } else {
-        //   // Handle registration errors
-        // }
+        // Llamar a la función de registro
+        const { user, error } = await registerWithEmail(
+            data.email,
+            data.password,
+            data.name
+        );
         
-        // For now, let's just simulate a successful registration
-        setTimeout(() => {
+        if (error) {
+            // Mostrar el error
+            setErrorMessage(error.message);
+            return;
+        }
+        
+        if (user) {
+            console.log('Usuario registrado exitosamente:', user);
+            
+            // Redirigir al login con mensaje de éxito
             router.push('/login?registered=true');
-        }, 1000);
+        }
         } catch (error) {
-        console.error('Registration error:', error);
+            console.error('Error inesperado en el registro:', error);
+            setErrorMessage('Ocurrió un error inesperado. Por favor, intenta nuevamente.');
+        } finally {
+            setIsLoading(false);
         }
     };
 
     return (
         <AuthTemplate
-            backgroundImage="/images/login_bg.png"
+            backgroundImage="/images/login_bg.jpg"
             title="Easy to use Dashboard"
             subtitle="Choose the best of product/services and get a bare metal server at the lowest prices."
         >
@@ -44,6 +55,12 @@ export default function RegisterPage() {
                 <h1 className="text-2xl font-bold text-gray-600">Create Your Account</h1>
                 <p className="text-gray-600 mt-2">Fill out the form to get started</p>
             </div>
+
+            {errorMessage && (
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-6">
+                {errorMessage}
+            </div>
+            )}
         
             <RegisterForm onSubmit={handleRegisterSubmit} />
         </AuthTemplate>

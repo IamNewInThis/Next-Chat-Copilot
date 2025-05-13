@@ -40,7 +40,7 @@ const Input: React.FC<InputProps> = ({
           onChange={onChange}
           placeholder={placeholder}
           required={required}
-          className={`w-full py-3 px-4 ${icon ? 'pl-10' : ''} rounded-lg border ${
+          className={`w-full py-3 px-4 text-gray-900 ${icon ? 'pl-10' : ''} rounded-lg border ${
             error ? 'border-red-500' : 'border-gray-300'
           } focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent`}
         />

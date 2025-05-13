@@ -1,5 +1,6 @@
  // organisms/RegisterForm.tsx
 import React, { useState } from 'react';
+import { supabase } from '@/lib/supabaseClient'
 import FormField from '../molecules/FormField';
 import Button from '../atoms/Button';
 import Link from 'next/link';
@@ -119,17 +120,17 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
                 <div className="mb-6">
                 <div className="flex items-center">
                     <input
-                    id="terms"
-                    name="terms"
-                    type="checkbox"
-                    className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
-                    required
+                        id="terms"
+                        name="terms"
+                        type="checkbox"
+                        className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+                        required
                     />
                     <label htmlFor="terms" className="ml-2 block text-sm text-gray-700">
-                    I agree to the{' '}
-                    <Link href="/terms" className="text-purple-600 hover:text-purple-500">
-                        Terms & Conditions
-                    </Link>
+                        I agree to the{' '}
+                        <Link href="/terms" className="text-purple-600 hover:text-purple-500">
+                            Terms & Conditions
+                        </Link>
                     </label>
                 </div>
                 </div>
