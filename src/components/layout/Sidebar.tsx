@@ -20,7 +20,9 @@ function Sidebar() {
             <Link href="/settings" className='cursor-pointer mt-auto'>
                 <FaCog className="text-2xl hover:text-purple-400" />
             </Link>
-            <FaSignOutAlt className="text-2xl hover:text-red-400 cursor-pointer" />
+            <Link className='cursor-pointer' href="/login">
+                <FaSignOutAlt className="text-2xl hover:text-red-400" />
+            </Link>
         </aside>
     )
 }
