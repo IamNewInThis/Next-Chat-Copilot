@@ -79,10 +79,10 @@ export async function registerWithEmail(
         const { error: profileError } = await supabase
             .from('profiles')
             .insert({
-            id: data.user.id,
-            name,
-            email,
-            created_at: new Date().toISOString(),
+                id: data.user.id,
+                name,
+                email: data.user.email,
+                created_at: new Date().toISOString(),
             });
 
         if (profileError) {
