@@ -55,11 +55,10 @@ const SearchInput = () => {
   const createChat = async (currentUserId: string, recipientId: string) => {
     // Primero verificamos si ya existe un chat entre estos usuarios
     const { data: existingChat, error: searchError } = await supabase
-      .from('chats')
-      .select('id')
-      .or(`user1_id.eq.${currentUserId},user2_id.eq.${currentUserId}`)
-      .or(`user1_id.eq.${recipientId},user2_id.eq.${recipientId}`)
-      .limit(1);
+    .from('chats')
+    .select('id')
+    .or(`and(user1_id.eq.${currentUserId},user2_id.eq.${recipientId}),and(user1_id.eq.${recipientId},user2_id.eq.${currentUserId})`)
+    .limit(1);
 
     if (searchError) {
       console.error('Error checking existing chat:', searchError);
