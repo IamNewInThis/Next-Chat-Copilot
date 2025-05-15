@@ -21,6 +21,7 @@ export default function ChatView() {
     const [chatData, setChatData] = useState<ChatData | null>(null);
     const [otherUser, setOtherUser] = useState<UserProfile | null>(null);
     const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
+    const [messages, setMessages] = useState<any[]>([]);
 
     useEffect(() => {
         async function loadData() {
@@ -92,9 +93,19 @@ export default function ChatView() {
                 avatar={otherUser?.avatar_url || 'https://ui-avatars.com/api/?name=Usuario&background=0D8ABC&color=fff'}
             />
             <div className="flex-grow overflow-y-auto bg-zinc-800 p-4">
-                <MessageList chatId={chatId} />
+                <MessageList 
+                    chatId={"e302f2ec-d19e-47e8-ac75-bcb3afad8daf"} 
+                    messages={messages}
+                    setMessages={setMessages}
+                />
             </div>
-            <ChatInput chatId={chatId} />
+            {currentUser && (
+                <ChatInput 
+                    chatId={"e302f2ec-d19e-47e8-ac75-bcb3afad8daf"} 
+                    senderId={currentUser.id} 
+                    setMessages={setMessages}
+                />
+            )}
         </div>
     );
 }
