@@ -44,10 +44,17 @@ const ChatList = () => {
                     .select(`
                         id,
                         user1_id,
-                        user2_id
+                        user2_id,
+                        messages (
+                            id,
+                            content,
+                            created_at,
+                            sender_id
+                        )
                     `)
                     .or(`user1_id.eq.${currentUser.id},user2_id.eq.${currentUser.id}`)
-                    .limit(1);
+                    .order('created_at', { referencedTable: 'messages', ascending: false }) 
+                    .limit(10);
 
                 if (chatsError) {
                     console.error('Error fetching chats:', chatsError);

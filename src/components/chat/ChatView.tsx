@@ -22,13 +22,6 @@ export default function ChatView() {
     const [otherUser, setOtherUser] = useState<UserProfile | null>(null);
     const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
 
-    const currentChat = {
-        id: chatId,
-        name: 'Osman Campos',
-        status: 'online',
-        avatar: 'https://ui-avatars.com/api/?name=Osman+Campos&background=0D8ABC&color=fff'
-    };
-
     useEffect(() => {
         async function loadData() {
             try {
@@ -91,14 +84,12 @@ export default function ChatView() {
         );
     }
 
-    
-
     return (
         <div className="flex flex-col w-full h-screen">
             <ChatHeader
-                name={currentChat.name}
-                status={currentChat.status}
-                avatar={currentChat.avatar}
+                name={otherUser?.name || 'Usuario'}
+                status={'online'}
+                avatar={otherUser?.avatar_url || 'https://ui-avatars.com/api/?name=Usuario&background=0D8ABC&color=fff'}
             />
             <div className="flex-grow overflow-y-auto bg-zinc-800 p-4">
                 <MessageList chatId={chatId} />
