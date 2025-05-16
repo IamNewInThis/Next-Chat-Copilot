@@ -153,24 +153,46 @@ export async function sendMessage(chatId: string, senderId: string, content: str
 }
 
 /**
- * Marca los mensajes de un chat como leídos
+ * Obtiene los mensajes de un chat
  */
-export async function markMessagesAsRead(chatId: string, userId: string) {
+export async function getChatMessages(chatId: string) {
     try {
-        const { error } = await supabase
+        const { data, error } = await supabase
             .from('messages')
-            .update({ is_read: true })
+            .select('*')
             .eq('chat_id', chatId)
-            .neq('sender_id', userId)
-            .eq('is_read', false);
+            .order('created_at', { ascending: true });
 
         if (error) {
-            console.error('Error marking messages as read:', error);
+            console.error('Error fetching chat messages:', error);
+            return [];
         }
+
+        return data || [];
     } catch (error) {
-        console.error('Error in markMessagesAsRead:', error);
+        console.error('Error in getChatMessages:', error);
+        return [];
     }
 }
+
+
+/**
+ * Suscribe a cambios en tiempo real en un chat
+ */
+export function subscribeToChat(chatId: string, callback: (payload: any) => void) {
+    const subscription = supabase
+        .channel(`chat:${chatId}`)
+        .on('postgres_changes', {
+            event: 'INSERT',
+            schema: 'public',
+            table: 'messages',
+            filter: `chat_id=eq.${chatId}`
+        }, callback)
+        .subscribe();
+
+    return subscription;
+}
+
 
 /**
  * Obtiene un chat por ID
@@ -200,28 +222,6 @@ export async function getChatById(chatId: string) {
     }
 }
 
-/**
- * Obtiene los mensajes de un chat
- */
-export async function getChatMessages(chatId: string) {
-    try {
-        const { data, error } = await supabase
-            .from('messages')
-            .select('*')
-            .eq('chat_id', chatId)
-            .order('created_at', { ascending: true });
-
-        if (error) {
-            console.error('Error fetching chat messages:', error);
-            return [];
-        }
-
-        return data || [];
-    } catch (error) {
-        console.error('Error in getChatMessages:', error);
-        return [];
-    }
-}
 
 /**
  * Obtiene el perfil de un usuario
@@ -247,20 +247,23 @@ export async function getUserProfile(userId: string) {
 }
 
 /**
- * Suscribe a cambios en tiempo real en un chat
+ * Marca los mensajes de un chat como leídos
  */
-export function subscribeToChat(chatId: string, callback: (payload: any) => void) {
-    const subscription = supabase
-        .channel(`chat:${chatId}`)
-        .on('postgres_changes', {
-            event: 'INSERT',
-            schema: 'public',
-            table: 'messages',
-            filter: `chat_id=eq.${chatId}`
-        }, callback)
-        .subscribe();
+export async function markMessagesAsRead(chatId: string, userId: string) {
+    try {
+        const { error } = await supabase
+            .from('messages')
+            .update({ is_read: true })
+            .eq('chat_id', chatId)
+            .neq('sender_id', userId)
+            .eq('is_read', false);
 
-    return subscription;
+        if (error) {
+            console.error('Error marking messages as read:', error);
+        }
+    } catch (error) {
+        console.error('Error in markMessagesAsRead:', error);
+    }
 }
 
 /**

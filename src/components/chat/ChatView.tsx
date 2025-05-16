@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { getChatById, getUserProfile } from '@/services/chat';
+import { getChatById, getUserProfile, subscribeToChat } from '@/services/chat';
 import { getCurrentUser } from '@/services/auth';
 import { supabase } from '@/lib/supabaseClient';
 import MessageList from './MessageList';
@@ -75,6 +75,21 @@ export default function ChatView() {
 
         loadData();
     }, [chatId]);
+
+    useEffect(() => {
+        if (!chatData?.id) return;
+    
+        const subscription = subscribeToChat(chatData.id, (payload) => {
+            if (payload?.new) {
+                setMessages((prev) => [...prev, payload.new]);
+            }
+        });
+    
+        return () => {
+            supabase.removeChannel(subscription);
+        };
+    }, [chatData?.id]);
+    
 
     if (loading) {
         return (
