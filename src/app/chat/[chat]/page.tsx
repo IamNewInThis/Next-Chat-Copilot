@@ -16,7 +16,7 @@ export default function ChatIdPage({ params }: ChatPageProps) {
         <ChatList />
       </div>
       <div className="flex-grow">
-        <ChatView />
+        <ChatView chatId={chatId as string} />
       </div>
     </div>
   );
