@@ -78,18 +78,23 @@ export default function ChatView() {
 
     useEffect(() => {
         if (!chatData?.id) return;
-    
+
         const subscription = subscribeToChat(chatData.id, (payload) => {
             if (payload?.new) {
-                setMessages((prev) => [...prev, payload.new]);
+            setMessages((prev) => {
+                // 🚫 evitar duplicados por ID
+                const exists = prev.some((msg) => msg.id === payload.new.id);
+                if (exists) return prev;
+                return [...prev, payload.new];
+            });
             }
         });
-    
+
         return () => {
             supabase.removeChannel(subscription);
         };
-    }, [chatData?.id]);
-    
+        }, [chatData?.id]);
+
 
     if (loading) {
         return (
@@ -107,7 +112,7 @@ export default function ChatView() {
                 status={'online'}
                 avatar={otherUser?.avatar_url || 'https://ui-avatars.com/api/?name=Usuario&background=0D8ABC&color=fff'}
             />
-            <div className="flex-grow overflow-y-auto bg-zinc-800 p-4">
+            <div className="flex-grow overflow-y-auto bg-zinc-800 p-4 scrollbar-custom">
                 <MessageList 
                     chatId={"e302f2ec-d19e-47e8-ac75-bcb3afad8daf"} 
                     messages={messages}
