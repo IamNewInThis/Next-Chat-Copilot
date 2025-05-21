@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { getChatById, getUserProfile, subscribeToChat } from '@/services/chat';
+import { getUserProfile, subscribeToChat } from '@/services/chat';
 import { getCurrentUser } from '@/services/auth';
 import { supabase } from '@/lib/supabaseClient';
 import MessageList from './MessageList';

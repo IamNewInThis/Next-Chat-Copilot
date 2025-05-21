@@ -13,7 +13,7 @@ export default function LoginPage() {
     const searchParams = useSearchParams();
     const isRegistered = searchParams?.get('registered') === 'true';
 
-    const [isLoading, setIsLoading] = useState(false);
+    const [, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
     const handleLoginSubmit = async (data: { email: string; password: string }) => {
@@ -37,7 +37,7 @@ export default function LoginPage() {
                 console.log('Usuario autenticado:', user);
                 
                 // Redirigir al dashboard
-                router.push('/home');
+                router.push('/chat');
             }
         } catch (error) {
             console.error('Error inesperado en el login:', error);

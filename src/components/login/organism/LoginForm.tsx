@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import FormField from '../molecules/FormField';
 import Button from '../atoms/Button';
 import Link from 'next/link';
-import { CiLock, CiUser, CiMail   } from "react-icons/ci";
+import { CiLock, CiMail   } from "react-icons/ci";
 
 interface LoginFormProps {
     onSubmit: (data: { email: string; password: string }) => void;
@@ -112,13 +112,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
                 </div>
                 
                 <Button type="submit" variant="primary" fullWidth>
-                Sign In
+                    Sign In
                 </Button>
             </form>
         
             <div className="mt-6 text-center">
                 <p className="text-sm text-gray-600">
-                    Don't have an account?{' '}
+                    Don&apos;t have an account?{' '}
                     <Link href="/register" className="text-purple-600 hover:text-purple-500 font-medium">
                         Create Account
                     </Link>

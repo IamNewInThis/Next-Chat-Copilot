@@ -10,7 +10,7 @@ import RegisterForm from '@/components/login/organism/RegisterForm';
 
 export default function RegisterPage() {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
+  const [, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
     const handleRegisterSubmit = async (data: { name: string; email: string; password: string }) => {

@@ -1,6 +1,5 @@
  // organisms/RegisterForm.tsx
 import React, { useState } from 'react';
-import { supabase } from '@/lib/supabaseClient'
 import FormField from '../molecules/FormField';
 import Button from '../atoms/Button';
 import Link from 'next/link';

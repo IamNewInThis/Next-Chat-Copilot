@@ -145,7 +145,7 @@ const ChatList = () => {
                     event: 'INSERT',
                     schema: 'public',
                     table: 'messages'
-                }, (payload) => {
+                }, () => {
                     // Actualizar la lista de chats cuando llega un nuevo mensaje
                     fetchChats();
                 })
