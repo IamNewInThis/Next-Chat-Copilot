@@ -6,6 +6,7 @@ import Link from 'next/link';
 import SearchInput from './SearchInput';
 import { supabase } from '@/lib/supabaseClient';
 import { getCurrentUser } from '@/services/auth';
+import { User } from '@supabase/supabase-js';
 
 type Chat = {
     id: string;
@@ -19,7 +20,7 @@ type Chat = {
 const ChatList = () => {
     const [chats, setChats] = useState<Chat[]>([]);
     const [loading, setLoading] = useState(true);
-    const [currentUser, setCurrentUser] = useState<any>(null);
+    const [currentUser, setCurrentUser] = useState<User | null>(null);
 
     useEffect(() => {
         // Cargar el usuario actual

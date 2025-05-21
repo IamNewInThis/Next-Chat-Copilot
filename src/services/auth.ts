@@ -1,4 +1,5 @@
 import { supabase } from '@/lib/supabaseClient';
+import { User } from '@supabase/supabase-js';
 
 export type AuthError = {
     message: string;
@@ -6,7 +7,7 @@ export type AuthError = {
 };
 
 export type AuthResponse = {
-    user: any | null;
+    user: User | null;
     error: AuthError | null;
 };
 
@@ -34,11 +35,17 @@ export async function loginWithEmail(email: string, password: string): Promise<A
         user: data.user,
         error: null,
     };
-    } catch (error: any) {
+    } catch (error: unknown) {
+        let errorMessage = 'Error desconocido en el inicio de sesión';
+
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
         return {
-        user: null,
-        error: {
-                message: error.message || 'Error desconocido en el inicio de sesión',
+            user: null,
+            error: {
+                message: errorMessage,
             },
         };
     } 
@@ -87,7 +94,6 @@ export async function registerWithEmail(
 
         if (profileError) {
             console.error('Error al crear perfil:', profileError);
-            // No devuelvo error aquí, porque el usuario ya se creó correctamente en Auth
         }
     }
 
@@ -95,11 +101,17 @@ export async function registerWithEmail(
         user: data.user,
         error: null,
     };
-    } catch (error: any) {
+    } catch (error: unknown) {
+        let errorMessage = 'Error desconocido en el registro';
+
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
         return {
-        user: null,
-        error: {
-            message: error.message || 'Error desconocido en el registro',
+            user: null,
+            error: {
+                message: errorMessage,
             },
         };
     }
@@ -122,10 +134,16 @@ export async function logout(): Promise<{ error: AuthError | null }> {
         }
         
         return { error: null };
-    } catch (error: any) {
+    } catch (error: unknown) {
+        let errorMessage = 'Error al cerrar sesión  ';
+
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+        
         return {
             error: {
-                message: error.message || 'Error al cerrar sesión',
+                message: errorMessage
             },
         };
     }

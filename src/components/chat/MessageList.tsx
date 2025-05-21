@@ -2,17 +2,18 @@
 
 import MessageBubble from './MessageBubble';
 import { useEffect, useState, useRef } from 'react';
-import { getChatMessages } from '@/services/chat';
+import { getChatMessages, ChatMessage } from '@/services/chat';
 import { getCurrentUser } from '@/services/auth';
+
 
 interface MessageListProps {
   chatId: string;
-  messages: any[];
-  setMessages: (messages: any[]) => void;
+  messages: ChatMessage[];
+  setMessages: (messages: ChatMessage[]) => void;
 }
 
 export default function MessageList({ chatId, messages, setMessages }: MessageListProps) {
-  const [currentUser, setCurrentUser] = useState<any>(null);
+  const [currentUser, setCurrentUser] = useState<{ id: string } | null>(null);
   // Referencia para desplazamiento automático al último mensaje
   const messagesEndRef = useRef<HTMLDivElement>(null);
   

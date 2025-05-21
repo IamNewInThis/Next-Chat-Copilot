@@ -1,4 +1,5 @@
 import { supabase } from '@/lib/supabaseClient';
+import { RealtimePostgresInsertPayload } from '@supabase/supabase-js';
 
 export type ChatUser = {
     id: string;
@@ -179,7 +180,7 @@ export async function getChatMessages(chatId: string) {
 /**
  * Suscribe a cambios en tiempo real en un chat
  */
-export function subscribeToChat(chatId: string, callback: (payload: any) => void) {
+export function subscribeToChat(chatId: string, callback: (payload: RealtimePostgresInsertPayload<ChatMessage>) => void) {
     const subscription = supabase
         .channel(`chat:${chatId}`)
         .on('postgres_changes', {

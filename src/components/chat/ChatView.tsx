@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { getUserProfile, subscribeToChat } from '@/services/chat';
+import { getUserProfile, subscribeToChat, ChatMessage } from '@/services/chat';
 import { getCurrentUser } from '@/services/auth';
 import { supabase } from '@/lib/supabaseClient';
 import MessageList from './MessageList';
@@ -30,7 +30,7 @@ export default function ChatView() {
     const [chatData, setChatData] = useState<ChatData | null>(null);
     const [otherUser, setOtherUser] = useState<UserProfile | null>(null);
     const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
-    const [messages, setMessages] = useState<any[]>([]);
+    const [messages, setMessages] = useState<ChatMessage[]>([]);
 
     useEffect(() => {
         async function loadData() {

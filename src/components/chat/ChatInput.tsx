@@ -1,12 +1,12 @@
 'use client';
 
 import { useState, FormEvent, useRef, useEffect } from 'react';
-import { sendMessage } from '@/services/chat';
+import { sendMessage, ChatMessage } from '@/services/chat';
 
 interface ChatInputProps {
   chatId: string;
   senderId: string;
-  setMessages: (messages: any) => void;
+  setMessages: (messages: ChatMessage[] | ((prev: ChatMessage[]) => ChatMessage[])) => void;
 }
 
 export default function ChatInput({ chatId, senderId, setMessages }: ChatInputProps) {
@@ -38,8 +38,8 @@ export default function ChatInput({ chatId, senderId, setMessages }: ChatInputPr
       };
       
       // Actualizar UI inmediatamente
-      setMessages((prevMessages: any[]) => [...prevMessages, optimisticMessage]);
-      
+      setMessages((prevMessages: ChatMessage[]) => [...prevMessages, optimisticMessage]);
+   
       // Limpiar input
       setMessageText('');
       
@@ -48,7 +48,7 @@ export default function ChatInput({ chatId, senderId, setMessages }: ChatInputPr
       
       if (newMessage) {
         // Reemplazar mensaje optimista con el real
-        setMessages((prevMessages: any[]) => 
+        setMessages((prevMessages: ChatMessage[]) => 
           prevMessages.map(msg => 
             msg.id === optimisticMessage.id ? newMessage : msg
           )
