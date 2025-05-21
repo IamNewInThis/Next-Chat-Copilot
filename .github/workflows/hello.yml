@@ -11,7 +11,7 @@ on:
 jobs:
   hello:
     # usar una version estable de ubuntu porque en caso de que haya una nueva versión de ubuntu, el workflow se romperá
-    runs-on: ubuntu-lastest
+    runs-on: ubuntu-latest
     # Pasos a realizar en el trabajo
     steps:
       - name: Say Hello
