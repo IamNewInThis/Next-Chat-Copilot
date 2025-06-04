@@ -1,6 +1,5 @@
 'use client';
 import React from 'react';
-import ProfileHeader from '@/components/settings/molecules/ProfileHeader';
 import ProfileForm from '@/components/settings/organism/ProfileForm';
 
 export default function SettingsPage() {
@@ -12,18 +11,10 @@ export default function SettingsPage() {
         avatarSrc: 'https://ui-avatars.com/api/?name=Juan+Perez&background=7C3AED&color=fff&size=200'
     };
 
-    // Handlers para las acciones (por ahora solo console.log)
-    const handleEditAvatar = () => {
-        console.log('Editar avatar');
-    };
-
-    const handleEditProfile = () => {
-        console.log('Editar perfil');
-    };
-
-    const handleSaveProfile = (data: any) => {
-        console.log('Guardar perfil:', data);
-    };
+    const handleSaveProfile = (data) => {
+        console.log('Perfil guardado:', data);
+        // Aquí podrías hacer una llamada a la API para guardar los datos del perfil
+    }
 
     return (
         <div className="max-w-4xl mx-auto p-6 space-y-8">

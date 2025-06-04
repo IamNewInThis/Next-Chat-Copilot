@@ -4,17 +4,18 @@ import FormField from '../molecules/FormField';
 import SettingsSection from '../molecules/SettingsSection';
 import Avatar from '../atoms/Avatar';
 import { Button } from '../atoms/Button';
-import { FiUser } from 'react-icons/fi';
+
+interface ProfileFormData {
+    name: string;
+    email: string;
+    phone?: string;
+    bio?: string;
+    avatarSrc?: string;
+}
 
 interface ProfileFormProps {
-    initialData?: {
-        name: string;
-        email: string;
-        phone?: string;
-        bio?: string;
-        avatarSrc?: string;
-    };
-    onSave?: (data: any) => void;
+    initialData?: ProfileFormData;
+    onSave?: (data: ProfileFormData) => void;
     isLoading?: boolean;
 }
 

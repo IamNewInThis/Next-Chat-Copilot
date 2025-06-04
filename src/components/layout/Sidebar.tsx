@@ -1,7 +1,6 @@
 import React from 'react'
 import Link from 'next/link';
-import { FaUserFriends, FaComments, FaBell, FaArchive, FaCog, FaSignOutAlt } from 'react-icons/fa';
-import { AiFillHome } from 'react-icons/ai';
+import { FaComments, FaCog, FaSignOutAlt } from 'react-icons/fa';
 
 function Sidebar() {
     return (

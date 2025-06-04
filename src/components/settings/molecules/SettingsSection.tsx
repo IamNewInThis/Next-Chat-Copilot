@@ -1,6 +1,5 @@
 import React from 'react';
 import { Card } from '../atoms/Card';
-import Avatar from '../atoms/Avatar';
 
 interface SettingsSectionProps {
     title: string;
