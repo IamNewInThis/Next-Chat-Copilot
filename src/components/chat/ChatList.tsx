@@ -3,10 +3,12 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation'
 import SearchInput from './SearchInput';
 import { supabase } from '@/lib/supabaseClient';
 import { getCurrentUser } from '@/services/auth';
 import { User } from '@supabase/supabase-js';
+import { markMessagesAsRead } from '@/services/chat';
 
 type Chat = {
     id: string;
@@ -21,9 +23,9 @@ const ChatList = () => {
     const [chats, setChats] = useState<Chat[]>([]);
     const [loading, setLoading] = useState(true);
     const [currentUser, setCurrentUser] = useState<User | null>(null);
+    const router = useRouter()
 
     useEffect(() => {
-        // Cargar el usuario actual
         const loadUser = async () => {
             const user = await getCurrentUser();
             setCurrentUser(user);
@@ -139,7 +141,7 @@ const ChatList = () => {
         if (currentUser?.id) {
             fetchChats();
 
-            // Configurar una suscripción en tiempo real para nuevos mensajes
+            // Configurar suscripciones en tiempo real
             const messagesSubscription = supabase
                 .channel('messages-channel')
                 .on('postgres_changes', {
@@ -148,6 +150,15 @@ const ChatList = () => {
                     table: 'messages'
                 }, () => {
                     // Actualizar la lista de chats cuando llega un nuevo mensaje
+                    fetchChats();
+                })
+                .on('postgres_changes', {
+                    event: 'UPDATE',
+                    schema: 'public',
+                    table: 'messages',
+                    filter: 'is_read=eq.true'
+                }, () => {
+                    // Actualizar cuando los mensajes son marcados como leídos
                     fetchChats();
                 })
                 .subscribe();

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { getUserProfile, subscribeToChat, ChatMessage } from '@/services/chat';
+import { getUserProfile, subscribeToChat, ChatMessage, markMessagesAsRead } from '@/services/chat';
 import { getCurrentUser } from '@/services/auth';
 import { supabase } from '@/lib/supabaseClient';
 import MessageList from './MessageList';
@@ -23,7 +23,7 @@ interface ChatData {
 
 export default function ChatView() {
     const params = useParams();
-    const chatId = params.chat as string; // Extrae el chatId de los parámetros de la URL
+    const chatId = params.chat as string;
     
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -80,6 +80,10 @@ export default function ChatView() {
                 }
 
                 setOtherUser(otherUserProfile);
+
+                // 5. Marcar mensajes como leídos al entrar al chat
+                await markMessagesAsRead(chatId, loggedInUser.id);
+
                 setLoading(false);
             } catch (err) {
                 console.error('Error cargando la conversación:', err);
@@ -102,13 +106,33 @@ export default function ChatView() {
                     if (exists) return prev;
                     return [...prev, payload.new];
                 });
+                
+                // Marcar como leído inmediatamente si el usuario está viendo el chat
+                if (currentUser?.id && payload.new.sender_id !== currentUser.id) {
+                    markMessagesAsRead(chatId, currentUser.id);
+                }
             }
         });
 
         return () => {
             supabase.removeChannel(subscription);
         };
-    }, [chatId, chatData?.id]);
+    }, [chatId, chatData?.id, currentUser?.id]);
+
+    // Marcar mensajes como leídos cuando el componente se monta o cuando el usuario vuelve a la pestaña
+    useEffect(() => {
+        const handleVisibilityChange = () => {
+            if (!document.hidden && currentUser?.id && chatId) {
+                markMessagesAsRead(chatId, currentUser.id);
+            }
+        };
+
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+        
+        return () => {
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
+        };
+    }, [chatId, currentUser?.id]);
 
     if (loading) {
         return (
