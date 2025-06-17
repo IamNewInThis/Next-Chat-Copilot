@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
 import { getUserProfile, subscribeToChat, ChatMessage, markMessagesAsRead } from '@/services/chat';
 import { getCurrentUser } from '@/services/auth';
 import { supabase } from '@/lib/supabaseClient';
@@ -21,10 +20,11 @@ interface ChatData {
     user2_id: string;
 }
 
-export default function ChatView() {
-    const params = useParams();
-    const chatId = params.chat as string;
-    
+interface ChatViewProps {
+    chatId: string;
+}
+
+export default function ChatView({ chatId }: ChatViewProps) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [chatData, setChatData] = useState<ChatData | null>(null);
