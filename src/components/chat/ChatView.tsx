@@ -50,7 +50,15 @@ export default function ChatView({ chatId }: ChatViewProps) {
                     setLoading(false);
                     return;
                 }
-                setCurrentUser(loggedInUser);
+
+                // Obtener el perfil del usuario actual
+                const currentUserProfile = await getUserProfile(loggedInUser.id);
+                if (!currentUserProfile) {
+                    setError('No se pudo obtener el perfil del usuario actual');
+                    setLoading(false);
+                    return;
+                }
+                setCurrentUser(currentUserProfile);
 
                 // 2. Obtener datos del chat
                 const { data: chat, error: chatError } = await supabase

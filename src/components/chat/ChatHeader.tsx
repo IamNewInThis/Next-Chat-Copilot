@@ -2,11 +2,16 @@
 
 import React from 'react';
 import Image from 'next/image';
-
 import { FiMoreVertical } from "react-icons/fi";
 import { FaPhone, FaVideo  } from "react-icons/fa";
 
-const ChatHeader = ({ name, status, avatar }) => {
+interface ChatHeaderProps {
+  name: string;
+  status: string;
+  avatar: string;
+}
+
+const ChatHeader = ({ name, status, avatar }: ChatHeaderProps) => {
   return (
     <div className="flex items-center justify-between bg-zinc-800 p-4 border-b border-zinc-700">
       <div className="flex items-center space-x-3">

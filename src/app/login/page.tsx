@@ -1,14 +1,14 @@
 // pages/login.tsx
 'use client';
 
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import { useRouter, useSearchParams  } from 'next/navigation';
 import AuthTemplate from '@/components/login/templates/AuthTemplate';
 import LoginForm from '@/components/login/organism/LoginForm';
 import { loginWithEmail  } from '@/services/auth'
 
 
-export default function LoginPage() {
+function LoginContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const isRegistered = searchParams?.get('registered') === 'true';
@@ -70,7 +70,17 @@ export default function LoginPage() {
                 </div>
             )}
         
-            <LoginForm onSubmit={handleLoginSubmit} />
+            <Suspense fallback={<div>Cargando...</div>}>
+              <LoginForm onSubmit={handleLoginSubmit} />
+            </Suspense>
         </AuthTemplate>
     );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div>Cargando...</div>}>
+      <LoginContent />
+    </Suspense>
+  );
 }

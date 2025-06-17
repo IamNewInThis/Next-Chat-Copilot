@@ -11,10 +11,10 @@ export default function SettingsPage() {
         avatarSrc: 'https://ui-avatars.com/api/?name=Juan+Perez&background=7C3AED&color=fff&size=200'
     };
 
-    const handleSaveProfile = (data) => {
-        console.log('Perfil guardado:', data);
-        // Aquí podrías hacer una llamada a la API para guardar los datos del perfil
-    }
+    // const handleSaveProfile =  (data: any) => {
+    //     console.log('Perfil guardado:', data);
+    //     // Aquí podrías hacer una llamada a la API para guardar los datos del perfil
+    // }
 
     return (
         <div className="max-w-4xl mx-auto p-6 space-y-8">
@@ -26,7 +26,7 @@ export default function SettingsPage() {
             <div className="space-y-6">
                 <ProfileForm
                     initialData={userData}
-                    onSave={handleSaveProfile}
+                    // onSave={}
                 />
 
             </div>

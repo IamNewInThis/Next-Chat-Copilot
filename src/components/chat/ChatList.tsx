@@ -18,6 +18,12 @@ type Chat = {
     image: string;
 };
 
+// interface ProfileData {
+//     name: string;
+//     email: string;
+//     // Agrega aquí otras propiedades según tu modelo de perfil
+// }
+
 const ChatList = () => {
     const pathname = usePathname();
     const [chats, setChats] = useState<Chat[]>([]);
@@ -167,6 +173,11 @@ const ChatList = () => {
             };
         }
     }, [currentUser?.id]);
+
+    // const handleSaveProfile = (data: ProfileData) => {
+    //     console.log('Perfil guardado:', data);
+    //     // Aquí podrías hacer una llamada a la API para guardar los datos del perfil
+    // }
 
     return (
         <div className="w-full text-white h-screen p-4 overflow-y-auto">
