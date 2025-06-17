@@ -7,6 +7,8 @@ interface ChatPageProps {
   }
 }
 
-export default function ChatPage({ params }: ChatPageProps) {
-  return <ChatView chatId={params.chat} />;
+export default async function ChatPage({ params }: ChatPageProps) {
+  // Desestructuramos el parámetro usando await
+  const { chat: chatId } = await params;
+  return <ChatView chatId={chatId} />;
 }

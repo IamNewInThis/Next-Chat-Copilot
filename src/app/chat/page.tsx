@@ -1,6 +1,5 @@
 import React from 'react';
 import ChatList from '@/components/chat/ChatList';
-import ChatView from '@/components/chat/ChatView';
 
 export default function ChatPage() {
   return (
@@ -8,8 +7,8 @@ export default function ChatPage() {
       <div className="w-80 flex-shrink-0">
         <ChatList />
       </div>
-      <div className="hidden md:block flex-grow">
-        <ChatView />
+      <div className="hidden md:flex flex-grow items-center justify-center bg-zinc-800">
+        <p className="text-zinc-400">Selecciona un chat para comenzar</p>
       </div>
     </div>
   );
