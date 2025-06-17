@@ -8,7 +8,7 @@ export default function ChatPage() {
       <div className="w-80 flex-shrink-0">
         <ChatList />
       </div>
-      <div className="flex-grow">
+      <div className="hidden md:block flex-grow">
         <ChatView />
       </div>
     </div>
