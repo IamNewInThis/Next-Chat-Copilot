@@ -50,8 +50,8 @@ function LoginContent() {
     return (
         <AuthTemplate
             backgroundImage="/images/login_bg.jpg"
-            title="Easy to use Dashboard"
-            subtitle="Choose the best of product/services and get a bare metal server at the lowest prices."
+            title="Easy to Talk"
+            subtitle="Chats Free."
         >
             <div className="text-center mb-8">
                 <h1 className="text-2xl font-bold text-gray-600">Sign In to Your Account</h1>
